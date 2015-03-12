@@ -430,29 +430,120 @@ pre .chunk {
   </div>
   <div class="slide hidden -" id="slide-4">
     <section class="slide-content"><h3 id="installation">Installation</h3>
+<p><strong>Python Virtual Environment:</strong></p>
+<pre><code class="lang-bash">$ sudo apt-get install python-pip
+$ sudo pip install virtualenv
+$ virtualenv venv
+$ source venv/bin/activate</code></pre>
+<p><strong>Ansible:</strong></p>
+<pre><code class="lang-bash">(venv) $ pip install ansible</code></pre>
 </section>
   </div>
   <div class="slide hidden -" id="slide-5">
     <section class="slide-content"><h3 id="hello-world">Hello world</h3>
+<p>Create inventory file: <strong>ansiblehosts</strong></p>
+<pre><code class="lang-bash">$ <span class="keyword">echo</span> <span class="string">"ansible.rohit.io"</span> &gt; ansiblehosts
+$ cat ansiblehosts
+ansible.rohit.io</code></pre>
+<p><strong>Execute</strong></p>
+<pre><code class="lang-bash">$ source venv/bin/activate
+(venv) $ ansible all -v -i ansiblehosts -m ping</code></pre>
 </section>
   </div>
   <div class="slide hidden -" id="slide-6">
     <section class="slide-content"><h3 id="introduction-to-modules">Introduction to Modules</h3>
+<ul>
+<li><strong>command</strong></li>
+</ul>
+<pre><code class="lang-bash">(venv) $ ansible all -v -i ansiblehosts -m command -a <span class="string">'echo "Hello Ansible!"'</span>
+(venv) $ ansible all -v -i ansiblehosts -m command -a <span class="string">'date'</span>
+(venv) $ ansible all -v -i ansiblehosts -m command -a <span class="string">'echo "HZllo" | tr Z e'</span></code></pre>
+<ul>
+<li><strong>shell</strong></li>
+</ul>
+<pre><code class="lang-bash">(venv) $ ansible all -v -i ansiblehosts -m shell -a <span class="string">'echo "Similar Module!"'</span>
+(venv) $ ansible all -v -i ansiblehosts -m shell -a <span class="string">'cal'</span>
+(venv) $ ansible all -v -i ansiblehosts -m shell -a <span class="string">'echo "HZllo" | tr Z e'</span></code></pre>
 </section>
   </div>
   <div class="slide hidden -" id="slide-7">
-    <section class="slide-content"><h3 id="replacing-shell">Replacing shell</h3>
+    <section class="slide-content"><ul>
+<li><strong>file</strong></li>
+</ul>
+<pre><code class="lang-bash">(venv) $ ansible all -v -i ansiblehosts -m shell -a <span class="string">'ls -l'</span>
+(venv) $ ansible all -v -i ansiblehosts -m file -a <span class="string">'path=devops state=touch'</span>
+(venv) $ ansible all -v -i ansiblehosts -m shell -a <span class="string">'ls -l'</span>
+(venv) $ ansible all -v -i ansiblehosts -m file -a <span class="string">'path=devops state=absent'</span>
+(venv) $ ansible all -v -i ansiblehosts -m shell -a <span class="string">'ls -l'</span>
+(venv) $ ansible all -v -i ansiblehosts -m file -a <span class="string">'path=.ssh/authorized_keys state=absent'</span>
+(venv) $ ansible all -v -i ansiblehosts -m ping
+(venv) $ ssh ansible.rohit.io
+(venv) $ ps aux | grep ansible
+(venv) $ deactivate
+$ source venv/bin/activate
+(venv) $ ansible all -v -i ansiblehosts -m ping</code></pre>
 </section>
   </div>
   <div class="slide hidden -" id="slide-8">
-    <section class="slide-content"><h3 id="excercise">Excercise</h3>
+    <section class="slide-content"><ul>
+<li><strong>copy</strong></li>
+</ul>
+<pre><code class="lang-bash">(venv) $ ansible all -v -i ansiblehosts -m shell -a <span class="string">'ls -l'</span>
+(venv) $ ansible all -v -i ansiblehosts -m copy -a <span class="string">'src=ansiblehosts dest=~'</span>
+(venv) $ ansible all -v -i ansiblehosts -m shell -a <span class="string">'ls -l'</span>
+(venv) $ ansible all -v -i ansiblehosts -m copy -a <span class="string">'src=ansiblehosts dest=~ mode=0600'</span>
+(venv) $ ansible all -v -i ansiblehosts -m shell -a <span class="string">'ls -l'</span></code></pre>
 </section>
   </div>
   <div class="slide hidden -" id="slide-9">
-    <section class="slide-content"><h1 id="questions-">Questions?</h1>
+    <section class="slide-content"><ul>
+<li><strong>cron</strong></li>
+</ul>
+<pre><code class="lang-bash">(venv) $ ansible all -v -i ansiblehosts -m shell -a <span class="string">'crontab -l'</span>
+(venv) $ ansible all -v -i ansiblehosts -m cron -a <span class="string">'name="devops" job="date &gt; date_output"'</span>
+(venv) $ ansible all -v -i ansiblehosts -m shell -a <span class="string">'crontab -l'</span>
+(venv) $ ansible all -v -i ansiblehosts -m cron -a <span class="string">'name="devops" job="date &gt; date_output" minute=53'</span>
+(venv) $ ansible all -v -i ansiblehosts -m shell -a <span class="string">'crontab -l'</span>
+(venv) $ ansible all -v -i ansiblehosts -m cron -a <span class="string">'name="newjob" job="cal &gt; cal_output"'</span>
+(venv) $ ansible all -v -i ansiblehosts -m shell -a <span class="string">'crontab -l'</span>
+(venv) $ ansible all -v -i ansiblehosts -m cron -a <span class="string">'name="devops" state=absent'</span>
+(venv) $ ansible all -v -i ansiblehosts -m shell -a <span class="string">'crontab -l'</span>
+(venv) $ ansible all -v -i ansiblehosts -m cron -a <span class="string">'name="newjob" state=absent'</span>
+(venv) $ ansible all -v -i ansiblehosts -m shell -a <span class="string">'crontab -l'</span></code></pre>
 </section>
   </div>
-  <div class="slide hidden" id="slide-10">
+  <div class="slide hidden -" id="slide-10">
+    <section class="slide-content"><h3 id="replacing-shell-ansible_shell-sh">Replacing shell: ansible_shell.sh</h3>
+<pre><code class="lang-bash"><span class="comment">#!/usr/bin/env bash</span>
+
+inventory_file=<span class="string">"<span class="variable">$1</span>"</span>
+prefix=<span class="string">"ansible all -v -i <span class="variable">$inventory_file</span> -m shell -a "</span>
+
+<span class="keyword">echo</span> <span class="string">"Prefix: <span class="variable">$prefix</span>"</span>
+<span class="keyword">echo</span>
+
+<span class="variable">$prefix</span> <span class="string">'date'</span>
+<span class="variable">$prefix</span> <span class="string">'ls -l'</span>
+<span class="variable">$prefix</span> <span class="string">'cal'</span>
+<span class="variable">$prefix</span> <span class="string">'echo "YipZZZZ" | tr Z e'</span>
+<span class="variable">$prefix</span> <span class="string">'echo "Yipeee!!"'</span></code></pre>
+<pre><code class="lang-bash">**Execute**
+$ chmod +x ansible_shell.sh
+$ ./ansible_shell.sh ansiblehosts</code></pre>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-11">
+    <section class="slide-content"><h3 id="exercise">Exercise</h3>
+<ul>
+<li>Convert one of your shell script into an ansible powered shell script.</li>
+</ul>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-12">
+    <section class="slide-content"><h1 id="question">Question</h1>
+</section>
+  </div>
+  <div class="slide hidden" id="slide-13">
     <section class="slide-content"><div class="author">
   <h1 class="name">Rohit Gupta</h1>
     <h3 class="twitter">
