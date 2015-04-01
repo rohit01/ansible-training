@@ -401,8 +401,8 @@ pre .chunk {
   </div>
 
   <div class="slide -" id="slide-1">
-    <section class="slide-content"><h1 id="ansible-training-s2">Ansible Training - S2</h1>
-<h3 id="key-concepts">Key concepts</h3>
+    <section class="slide-content"><h1 id="ansible-training">Ansible Training</h1>
+<h2 id="-key-concepts-"><strong>Key Concepts</strong></h2>
 </section>
   </div>
   <div class="slide hidden -" id="slide-2">
@@ -419,10 +419,34 @@ pre .chunk {
 </section>
   </div>
   <div class="slide hidden -" id="slide-3">
+    <section class="slide-content"><h2 id="sample-playbook-yaml-file">Sample Playbook - YAML File</h2>
+<pre><code>- hosts: all
+  vars:
+    name: &quot;knowlarity&quot;
+    department: &quot;devops&quot;
+  gather_facts: no
+
+  tasks:
+    - debug: var=&quot;name&quot;
+
+    - name: &quot;Value of variable - department&quot;
+      debug: var=department
+
+    - shell: &quot;date &gt; /tmp/date_file&quot;
+      args:
+        creates: &quot;/tmp/date_file&quot;
+      notify: &quot;show calendar&quot;
+
+  handlers:
+    - name: &quot;show calendar&quot;
+      shell: &quot;cal&quot;</code></pre>
+</section>
+  </div>
+  <div class="slide hidden -" id="slide-4">
     <section class="slide-content"><h1 id="questions-">Questions?</h1>
 </section>
   </div>
-  <div class="slide hidden" id="slide-4">
+  <div class="slide hidden" id="slide-5">
     <section class="slide-content"><div class="author">
   <h1 class="name">Rohit Gupta</h1>
     <h3 class="twitter">
